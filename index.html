@@ -123,28 +123,25 @@ footer{background:#fff; border-top:1px solid var(--ring); padding:22px 0; color:
 
 <script>
 const form = document.getElementById('quoteForm');
-const statusEl = document.getElementById('formStatus');
 
-function serialize(form){
-  return Object.fromEntries(new FormData(form).entries());
-}
-
-form.addEventListener('submit', async (e)=>{
+form.addEventListener('submit', function(e){
   e.preventDefault();
-  if (statusEl) statusEl.textContent = 'Sending…';
-  const data = serialize(form);
-  try{
-    const res = await fetch('/.netlify/functions/quote',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(data)
-    });
-    if(!res.ok) throw new Error('Bad response');
-    form.reset();
-    if (statusEl) statusEl.textContent = 'Thanks! Your request was sent. We will confirm shortly.';
-  }catch(err){
-    if (statusEl) statusEl.textContent = 'Could not send. Please call (857) 333-9639 or email GuirTransportation@gmail.com.';
-  }
+  const d = new FormData(form);
+
+  const text =
+    "New Ride Request:\n" +
+    "Name: " + d.get('name') + "\n" +
+    "Contact: " + d.get('phone') + "\n" +
+    "Pickup: " + d.get('pickup') + "\n" +
+    "Drop-off: " + d.get('dropoff') + "\n" +
+    "Date: " + d.get('date') + "\n" +
+    "Time: " + d.get('time') + "\n" +
+    "Notes: " + (d.get('notes') || "");
+
+  // T-Mobile SMS link
+  const sms = "sms:8573339639?&body=" + encodeURIComponent(text);
+
+  window.location.href = sms;
 });
 </script>
 </body>
