@@ -1,0 +1,9 @@
+{
+  "name": "guir_transportation",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "twilio": "^4.23.0"
+  }
+}
